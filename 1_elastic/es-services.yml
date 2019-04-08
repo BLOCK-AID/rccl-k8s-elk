@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: k8s-elastic
+  name: elasticsearch-master
+  labels:
+    app: elasticsearch
+    role: master
+spec:
+  # clusterIP: None
+  type: LoadBalancer
+  selector:
+    app: elasticsearch
+    role: master
+  ports:
+    - port: 9200
+      targetPort: 9200
+      name: http
+    - port: 9300
+      name: node-to-node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: k8s-elastic
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+    role: data
+spec:
+  clusterIP: None
+  selector:
+    app: elasticsearch
+    role: data
+  ports:
+    - port: 9200
+      name: http
+    - port: 9300
+      name: node-to-node
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: k8s-elastic
+  name: elasticsearch-coord
+  labels:
+    app: elasticsearch
+    role: coord
+  #annotations:
+      #service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
+      # service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012
+      # service.beta.kubernetes.io/aws-load-balancer-backend-protocol: (https|http|ssl|tcp)
+      # service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443,8443"
+spec:
+  # clusterIP: None
+  type: LoadBalancer
+  selector:
+    app: elasticsearch
+    role: coord
+  ports:
+    - port: 9200
+      protocol: TCP
+      targetPort: 9200
+      name: http
+    - port: 9300
+      name: node-to-node
+status:
+  loadBalancer: {}

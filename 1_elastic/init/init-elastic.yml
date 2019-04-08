@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: k8s-elastic
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  namespace: k8s-elastic
+  name: ssd
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
