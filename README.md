@@ -16,11 +16,12 @@
       + 2 ELK Coordinating Nodes (1 pod per Node for READ LB)
       + 1 ELK Kibana instance
       + 1 ELK Logstash instance
+
 ```
 ******* Start ELASTICSEARCH ******
 
 1. Go to generated templates
-> cd /BLOCK-AID/github/aws-k8s-elk
+> cd /BLOCK-AID/github/rccl-azure-k8s-elk
 
 2. Apply the namespace file and create AWS storage (EBS).
 > kubectl apply -f 1_elastic/init
